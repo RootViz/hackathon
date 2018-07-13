@@ -1,0 +1,85 @@
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenLocal()
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+allprojects {
+
+    group = "com.uacf.hackathon.anomaly"
+    version = "1.0-SNAPSHOT"
+
+    compileJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+
+        options.encoding = 'UTF-8'
+    }
+
+    configurations {
+        deployer
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        jcenter()
+    }
+
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    test {
+        // listen to events in the test execution lifecycle
+        beforeTest { descriptor ->
+            logger.lifecycle("Running test: " + descriptor)
+        }
+
+        // listen to standard out and standard error of the test JVM(s)
+        onOutput { descriptor, event ->
+            logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+        }
+
+        reports {
+            junitXml.enabled = true
+            html.enabled = true
+        }
+
+        testLogging {
+            exceptionFormat = 'full'
+        }
+    }
+
+    task buildZip(type: Zip) {
+        from compileJava
+        from processResources
+        into('lib') {
+            from configurations.runtime
+        }
+    }
+
+    task buildTestZip(type: Zip) {
+        classifier "test"
+        from compileTestJava
+        from processTestResources
+        into('lib') {
+            from configurations.testRuntime
+        }
+    }
+
+    build.dependsOn buildZip
+    build.dependsOn buildTestZip
+
+}
+
