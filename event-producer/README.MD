@@ -1,11 +1,6 @@
-# Hackathon Project
+# Event Producer
 
-This project is root project that encompasses 2 sub module projects:
-
-1. Data Analysis - Anomaly Detection App with Kinesis Analytics.
-2. Data Processing - Anomaly Event tagger app with AWS Lambda.
-3. Event Producer - Event producer python app.
-
+This python app used to produce dummy UACF-Run events for anomaly detection.
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
