@@ -1,4 +1,4 @@
-# Hackathon Project
+# Hackathon Project with AWS lambda
 
 This project is root project that encompasses 2 sub module projects:
 
